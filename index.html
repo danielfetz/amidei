@@ -452,7 +452,7 @@
   footer li a:hover { color: var(--gold-soft); background: none; }
   footer .colophon { border-top: 1px solid rgba(244,239,227,0.12); padding-top: 32px; display: flex; justify-content: space-between; font-family: 'Cormorant Garamond', serif; font-size: 12px; letter-spacing: 0.22em; text-transform: uppercase; color: rgba(244,239,227,0.45); }
 
-  /* Reveal */
+  .nav-short { display: none; }
   .reveal { opacity: 0; transform: translateY(24px); transition: opacity 1.2s ease-out, transform 1.2s cubic-bezier(0.2, 0.7, 0.2, 1); }
   .reveal.in { opacity: 1; transform: translateY(0); }
   .reveal.delay-1 { transition-delay: .12s; }
@@ -466,7 +466,7 @@
     .utility-inner { padding: 12px 28px; flex-direction: column; gap: 10px; }
     .utility nav { gap: 1.4em; }
     .masthead { padding: 70px 0 60px; }
-    .masthead-box { padding: 52px 36px 48px; }
+    .masthead-box { padding: 52px 28px 48px; }
     section.chapter { padding: 60px 0; }
     .chapter-intro { margin-bottom: 36px; }
     .chapter-header { grid-template-columns: 1fr; gap: 8px; }
@@ -496,7 +496,7 @@
       <div><span>The Amidei Prize</span></div>
       <nav>
         <a href="#origins">Origins</a>
-        <a href="#structure">The Prize</a>
+        <a href="#structure"><span class="nav-full">The Prize</span><span class="nav-short">Prize</span></a>
         <a href="#medallists">Medallists</a>
         <a href="#recovery">Recovery</a>
         <a href="#nominate">Nominate</a>
