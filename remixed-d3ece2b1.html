@@ -1,0 +1,785 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>The Amidei Prize — The Fermi Foundation</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,500&family=Crimson+Pro:ital,wght@0,300;0,400;0,500;0,600;1,400;1,500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --vellum: #f4efe3;
+    --vellum-deep: #ede6d5;
+    --ink: #1c1610;
+    --ink-soft: #463a2c;
+    --ink-quiet: #8a7d6b;
+    --rule: #c8bda5;
+    --oxblood: #6b1a1a;
+    --oxblood-deep: #4a1010;
+    --gold: #a8814a;
+    --gold-soft: #c4a574;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--vellum);
+    color: var(--ink);
+    font-family: 'Crimson Pro', 'Iowan Old Style', 'Palatino Linotype', Palatino, Georgia, serif;
+    font-weight: 400;
+    font-size: 19px;
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    overflow-x: hidden;
+    background-image:
+      radial-gradient(ellipse at top, rgba(168,129,74,0.04), transparent 60%),
+      radial-gradient(ellipse at bottom right, rgba(107,26,26,0.025), transparent 70%);
+  }
+
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1;
+    opacity: 0.35;
+    mix-blend-mode: multiply;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.11  0 0 0 0 0.085  0 0 0 0 0.06  0 0 0 0.06 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+  }
+
+  ::selection { background: var(--oxblood); color: var(--vellum); }
+
+  a {
+    color: var(--oxblood);
+    text-decoration: none;
+    background-image: linear-gradient(var(--oxblood), var(--oxblood));
+    background-repeat: no-repeat;
+    background-size: 100% 1px;
+    background-position: 0 100%;
+    transition: background-size .35s ease, color .25s ease;
+  }
+  a:hover { color: var(--oxblood-deep); background-size: 100% 2px; }
+
+  .page { position: relative; z-index: 2; }
+  .container { max-width: 1180px; margin: 0 auto; padding: 0 56px; }
+  .col { max-width: 640px; margin: 0 auto; }
+
+  /* Utility bar */
+  .utility { border-bottom: 1px solid var(--rule); background: rgba(244,239,227,0.6); }
+  .utility-inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 56px;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 19px;
+    font-weight: 400;
+    color: var(--ink-soft);
+  }
+  .utility-inner > div:first-child { font-style: italic; font-size: 22px; }
+  .utility nav { display: flex; gap: 2em; }
+  .utility nav a {
+    color: var(--ink-soft);
+    background: none;
+    font-style: italic;
+    font-size: 19px;
+    transition: color .25s;
+  }
+  .utility nav a:hover { color: var(--oxblood); background: none; }
+
+  /* Masthead */
+  .masthead { padding: 80px 0 90px; text-align: center; position: relative; }
+  .masthead-box {
+    display: inline-block;
+    padding: 52px 80px 48px;
+    background: var(--vellum-deep);
+    border: 1px solid var(--rule);
+    position: relative;
+  }
+  .masthead-box::before {
+    content: "";
+    position: absolute;
+    inset: 8px;
+    border: 1px solid var(--gold);
+    pointer-events: none;
+    opacity: 0.5;
+  }
+  .masthead .establishment {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 12px;
+    letter-spacing: 0.42em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    margin-bottom: 28px;
+    font-weight: 500;
+  }
+  .masthead h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 300;
+    font-size: clamp(58px, 8.5vw, 112px);
+    line-height: 0.95;
+    letter-spacing: -0.01em;
+    color: var(--oxblood);
+    margin-bottom: 0;
+  }
+  .masthead h1 em { font-style: italic; font-weight: 400; }
+
+  /* Citation */
+  .citation {
+    text-align: center;
+    position: relative;
+    border-top: 1px solid var(--rule);
+    border-bottom: 1px solid var(--rule);
+    padding: 80px 0;
+  }
+  .citation .label {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 12px;
+    letter-spacing: 0.42em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    margin-bottom: 38px;
+  }
+  .citation blockquote {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 400;
+    font-style: italic;
+    font-size: clamp(28px, 3.6vw, 44px);
+    line-height: 1.3;
+    color: var(--ink);
+    max-width: 820px;
+    margin: 0 auto;
+    letter-spacing: -0.005em;
+  }
+  .citation blockquote::before { content: "\201C"; color: var(--gold); margin-right: 0.05em; }
+  .citation blockquote::after  { content: "\201D"; color: var(--gold); margin-left:  0.05em; }
+
+  /* Sections */
+  section.chapter { padding: 90px 0; border-top: 1px solid var(--rule); position: relative; }
+  section.chapter:first-of-type { border-top: 0; }
+
+  /* Chapter intro: eyebrow above the grid */
+  .chapter-intro { max-width: 640px; margin: 0 auto 64px; }
+  .chapter-intro .eyebrow {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 12px;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    margin-bottom: 16px;
+    font-weight: 500;
+  }
+  .chapter-header h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 400;
+    font-size: clamp(38px, 4.5vw, 58px);
+    line-height: 1.05;
+    letter-spacing: -0.005em;
+    color: var(--ink);
+  }
+  .chapter-header h2 em { font-style: italic; color: var(--oxblood); font-weight: 400; }
+
+  /* Prose */
+  .prose { max-width: 640px; margin: 0 auto; }
+  .prose p { margin-bottom: 1.25em; }
+  .prose p:last-child { margin-bottom: 0; }
+  .prose p.lead {
+    font-size: 1.18em;
+    line-height: 1.55;
+    color: var(--ink-soft);
+    font-style: italic;
+    margin-bottom: 1.6em;
+  }
+  .prose p.lead em { font-style: normal; color: var(--ink); }
+  .prose.first-cap > p:first-of-type::first-letter {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 400;
+    font-size: 5.2em;
+    line-height: 0.85;
+    float: left;
+    padding: 0.08em 0.12em 0 0;
+    color: var(--oxblood);
+  }
+
+  /* Pull quote */
+  .pullquote {
+    margin: 56px auto;
+    max-width: 640px;
+    padding: 0 0 0 32px;
+    border-left: 2px solid var(--gold);
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-weight: 400;
+    font-size: 26px;
+    line-height: 1.4;
+    color: var(--ink);
+  }
+  .pullquote cite {
+    display: block;
+    font-style: normal;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    margin-top: 22px;
+  }
+
+  /* Tiers */
+  .tiers {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    max-width: 880px;
+    margin: 60px auto 0;
+    border-top: 1px solid var(--rule);
+    border-bottom: 1px solid var(--rule);
+  }
+  .tier { padding: 44px 40px; }
+  .tier + .tier { border-left: 1px solid var(--rule); }
+  .tier .tier-eyebrow {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 11px;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: var(--gold);
+    font-weight: 600;
+    margin-bottom: 14px;
+  }
+  .tier h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 400;
+    font-size: 34px;
+    line-height: 1.1;
+    margin-bottom: 18px;
+    color: var(--ink);
+  }
+  .tier h3 em { font-style: italic; color: var(--oxblood); }
+  .tier .tier-meta {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 16px;
+    color: var(--ink-soft);
+    margin-bottom: 18px;
+  }
+  .tier p { font-size: 17px; line-height: 1.6; color: var(--ink-soft); }
+
+  /* Principles */
+  .principles { max-width: 820px; margin: 70px auto 0; counter-reset: principle; }
+  .principles .principle {
+    display: grid;
+    grid-template-columns: 60px 1fr;
+    gap: 32px;
+    padding: 28px 0;
+    border-bottom: 1px solid var(--rule);
+    counter-increment: principle;
+  }
+  .principles .principle:first-child { border-top: 1px solid var(--rule); }
+  .principles .principle .num {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 24px;
+    color: var(--gold);
+    line-height: 1.2;
+  }
+  .principles .principle .num::before { content: counter(principle, upper-roman) "."; }
+  .principles .principle h4 {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 500;
+    font-size: 22px;
+    color: var(--ink);
+    margin-bottom: 6px;
+  }
+  .principles .principle p { font-size: 17px; line-height: 1.6; color: var(--ink-soft); }
+
+  /* Society activities */
+  .activities {
+    display: flex;
+    justify-content: center;
+    gap: 48px;
+    max-width: 720px;
+    margin: 64px auto 0;
+  }
+  .activity { text-align: center; padding: 0 8px; flex: 1; }
+  .activity .glyph {
+    width: 56px; height: 56px;
+    margin: 0 auto 24px;
+    display: flex; align-items: center; justify-content: center;
+    border: 1px solid var(--gold);
+    border-radius: 50%;
+    color: var(--oxblood);
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 26px;
+  }
+  .activity h4 {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 400;
+    font-size: 26px;
+    margin-bottom: 14px;
+    color: var(--ink);
+  }
+  .activity h4 em { font-style: italic; color: var(--oxblood); }
+  .activity p { font-size: 17px; line-height: 1.6; color: var(--ink-soft); }
+
+  /* Tombstone */
+  .tombstone {
+    max-width: 720px;
+    margin: 70px auto 0;
+    padding: 56px 60px;
+    background: var(--vellum-deep);
+    border: 1px solid var(--rule);
+    text-align: center;
+    position: relative;
+  }
+  .tombstone::before {
+    content: "";
+    position: absolute;
+    inset: 8px;
+    border: 1px solid var(--gold);
+    pointer-events: none;
+    opacity: 0.5;
+  }
+  .tombstone .tomb-year {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 300;
+    font-size: 92px;
+    line-height: 1;
+    color: var(--oxblood);
+    letter-spacing: 0.04em;
+  }
+  .tombstone .tomb-sub {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 22px;
+    color: var(--ink-soft);
+    margin: 14px 0 32px;
+  }
+  .tombstone .tomb-rule { width: 50px; height: 1px; background: var(--gold); margin: 0 auto 32px; }
+  .tombstone .tomb-body { font-size: 18px; line-height: 1.65; color: var(--ink); max-width: 480px; margin: 0 auto; }
+
+  /* Recovery list */
+  .recovery-list { max-width: 760px; margin: 52px auto 0; }
+  .recovery-list .recovery-item {
+    display: grid;
+    grid-template-columns: 140px 1fr auto;
+    gap: 36px;
+    align-items: baseline;
+    padding: 22px 0;
+    border-bottom: 1px dotted var(--rule);
+  }
+  .recovery-list .recovery-item:first-child { border-top: 1px solid var(--rule); }
+  .recovery-list .name { font-family: 'Cormorant Garamond', serif; font-weight: 500; font-size: 22px; color: var(--ink); }
+  .recovery-list .name em { font-style: italic; }
+  .recovery-list .desc { font-size: 16px; line-height: 1.55; color: var(--ink-soft); font-style: italic; }
+  .recovery-list .status { font-family: 'Cormorant Garamond', serif; font-size: 11px; letter-spacing: 0.32em; text-transform: uppercase; color: var(--gold); white-space: nowrap; }
+  .recovery-list .status.active { color: var(--oxblood); }
+
+  /* Curriculum */
+  .curriculum {
+    max-width: 720px;
+    margin: 60px auto 56px;
+    padding: 44px 48px 30px;
+    background: var(--vellum-deep);
+    border: 1px solid var(--rule);
+    position: relative;
+  }
+  .curriculum::before {
+    content: "";
+    position: absolute;
+    inset: 8px;
+    border: 1px solid var(--gold);
+    pointer-events: none;
+    opacity: 0.4;
+  }
+  .curriculum-head { text-align: center; margin-bottom: 28px; }
+  .curriculum-eyebrow { font-family: 'Cormorant Garamond', serif; font-size: 12px; letter-spacing: 0.4em; text-transform: uppercase; color: var(--gold); margin-bottom: 12px; font-weight: 500; }
+  .curriculum-title { font-family: 'Cormorant Garamond', serif; font-weight: 400; font-size: 28px; line-height: 1.2; color: var(--ink); }
+  .curriculum-title em { font-style: italic; color: var(--oxblood); }
+  .curriculum-list { list-style: none; }
+  .curriculum-list li { display: grid; grid-template-columns: 36px 60px 150px 1fr; gap: 20px; align-items: baseline; padding: 13px 0; border-bottom: 1px dotted var(--rule); }
+  .curriculum-list li:last-child { border-bottom: 0; }
+  .cv-num { font-family: 'Cormorant Garamond', serif; font-style: italic; color: var(--gold); font-size: 19px; text-align: right; }
+  .cv-year { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 18px; color: var(--ink-soft); }
+  .cv-subject { font-family: 'Cormorant Garamond', serif; font-size: 11px; letter-spacing: 0.28em; text-transform: uppercase; color: var(--ink-soft); font-weight: 500; }
+  .cv-text { font-size: 16.5px; color: var(--ink); line-height: 1.45; }
+  .cv-text em { font-style: italic; }
+
+  /* Nominate */
+  .nominate {
+    text-align: center;
+    padding: 110px 0 130px;
+    border-top: 1px solid var(--rule);
+    background: radial-gradient(ellipse at center top, rgba(168,129,74,0.08), transparent 65%), var(--vellum);
+  }
+  .nominate h2 { font-family: 'Cormorant Garamond', serif; font-weight: 300; font-size: clamp(40px, 5vw, 64px); line-height: 1.05; margin-bottom: 24px; color: var(--ink); }
+  .nominate h2 em { font-style: italic; color: var(--oxblood); }
+  .nominate p { max-width: 580px; margin: 0 auto 44px; font-size: 19px; color: var(--ink-soft); line-height: 1.6; }
+  .nominate-btn {
+    display: inline-block;
+    padding: 18px 44px;
+    border: 1px solid var(--ink);
+    background: transparent;
+    color: var(--ink);
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 14px;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all .35s ease;
+    position: relative;
+  }
+  .nominate-btn::before { content: ""; position: absolute; inset: 5px; border: 1px solid transparent; transition: border-color .35s ease; }
+  .nominate-btn:hover { background: var(--ink); color: var(--vellum); }
+  .nominate-btn:hover::before { border-color: var(--vellum); }
+  .nominate .deadline { margin-top: 32px; font-family: 'Cormorant Garamond', serif; font-style: italic; color: var(--ink-soft); font-size: 16px; }
+
+  /* Footer */
+  footer { background: var(--ink); color: var(--vellum-deep); padding: 90px 0 50px; }
+  footer .container { padding-left: 56px; padding-right: 56px; }
+  footer .foot-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 60px; margin-bottom: 64px; }
+  footer h5 { font-family: 'Cormorant Garamond', serif; font-size: 12px; letter-spacing: 0.32em; text-transform: uppercase; color: var(--gold-soft); margin-bottom: 20px; font-weight: 500; }
+  footer .mark { font-family: 'Cormorant Garamond', serif; font-weight: 300; font-size: 30px; color: var(--vellum); line-height: 1.1; margin-bottom: 16px; }
+  footer .mark em { font-style: italic; color: var(--gold-soft); }
+  footer .blurb { font-size: 15px; line-height: 1.65; color: rgba(244,239,227,0.65); max-width: 320px; }
+  footer ul { list-style: none; }
+  footer li { margin-bottom: 10px; font-size: 15px; }
+  footer li a { color: var(--vellum-deep); background: none; transition: color .25s; }
+  footer li a:hover { color: var(--gold-soft); background: none; }
+  footer .colophon { border-top: 1px solid rgba(244,239,227,0.12); padding-top: 32px; display: flex; justify-content: space-between; font-family: 'Cormorant Garamond', serif; font-size: 12px; letter-spacing: 0.22em; text-transform: uppercase; color: rgba(244,239,227,0.45); }
+
+  /* Reveal */
+  .reveal { opacity: 0; transform: translateY(24px); transition: opacity 1.2s ease-out, transform 1.2s cubic-bezier(0.2, 0.7, 0.2, 1); }
+  .reveal.in { opacity: 1; transform: translateY(0); }
+  .reveal.delay-1 { transition-delay: .12s; }
+  .reveal.delay-2 { transition-delay: .24s; }
+  .reveal.delay-3 { transition-delay: .36s; }
+
+  /* Responsive */
+  @media (max-width: 820px) {
+    body { font-size: 18px; }
+    .container { padding: 0 28px; }
+    .utility-inner { padding: 12px 28px; flex-direction: column; gap: 10px; }
+    .utility nav { gap: 1.4em; }
+    .masthead { padding: 70px 0 60px; }
+    .masthead-box { padding: 52px 36px 48px; }
+    section.chapter { padding: 60px 0; }
+    .chapter-intro { margin-bottom: 36px; }
+    .chapter-header { grid-template-columns: 1fr; gap: 8px; }
+    .chapter-numeral { text-align: left; font-size: 38px; }
+    .tiers { grid-template-columns: 1fr; }
+    .tier + .tier { border-left: 0; border-top: 1px solid var(--rule); }
+    .tier { padding: 36px 28px; }
+    .activities { flex-direction: column; align-items: center; }
+    .principles .principle { grid-template-columns: 1fr; gap: 8px; }
+    .recovery-list .recovery-item { grid-template-columns: 1fr; gap: 6px; }
+    .tombstone { padding: 40px 28px; }
+    .tombstone .tomb-year { font-size: 64px; }
+    footer .foot-grid { grid-template-columns: 1fr; gap: 36px; }
+    footer .colophon { flex-direction: column; gap: 8px; }
+    .curriculum { padding: 32px 24px 20px; }
+    .curriculum-list li { grid-template-columns: 1fr; gap: 4px; padding: 16px 0; }
+    .cv-num { text-align: left; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- Utility -->
+  <div class="utility">
+    <div class="utility-inner">
+      <div><span>The Amidei Prize</span></div>
+      <nav>
+        <a href="#origins">Origins</a>
+        <a href="#structure">The Prize</a>
+        <a href="#medallists">Medallists</a>
+        <a href="#recovery">Recovery</a>
+        <a href="#nominate">Nominate</a>
+      </nav>
+    </div>
+  </div>
+
+  <!-- Masthead -->
+  <header class="masthead">
+    <div class="container">
+      <div class="masthead-box reveal in">
+        <div class="establishment">A project of the Fermi Foundation</div>
+        <h1>The <em>Amidei</em><br/>Prize</h1>
+      </div>
+    </div>
+  </header>
+
+  <!-- Citation -->
+  <div class="citation">
+    <div class="container">
+      <div class="label reveal">The Prize is awarded</div>
+      <blockquote class="reveal delay-1">
+        for identifying exceptional young people and supporting their development through sustained personal effort.
+      </blockquote>
+    </div>
+  </div>
+
+  <!-- I. Origins -->
+  <section class="chapter" id="origins">
+    <div class="container">
+
+      <div class="chapter-intro reveal">
+        <div class="eyebrow">Origins</div>
+        <div class="chapter-header"><h2>On <em>Adolfo Amidei</em>, who saw what others did not.</h2></div>
+      </div>
+
+      <div class="prose first-cap col reveal delay-1">
+        <p class="lead">Rome, 1914. Adolfo Amidei, inspector at the Italian Ministry of Railways, walks home most evenings with a colleague from his office: Alberto Fermi. Often Alberto's thirteen-year-old son Enrico waits for them at the Ministry door and joins the walk.</p>
+        <p>One evening, having learned that Amidei is serious about mathematics and physics, the boy poses him a question. <em>Is it true</em>, he asks, <em>that there exists a branch of geometry in which the important geometric properties are studied without using the concept of measure?</em> Amidei recognises it instantly as projective geometry, and the next day puts into Enrico's hands the Italian translation of Theodor Reye's <em>Die Geometrie der Lage</em>. Two months later the book is returned. There are more than two hundred exercises at the back of it; the boy has solved them all, including several that Amidei himself had found difficult.</p>
+        <p>Amidei concludes that the child is a prodigy, and begins quietly to guide him. Enrico had been buying books haphazardly from the bookstalls of the Campo de' Fiori, hoping to find a theory that would explain the motion of spinning tops and gyroscopes; Amidei tells him the rigorous answer lies in theoretical mechanics, but that mechanics in turn requires trigonometry, algebra, analytic geometry, the calculus. Over the next four years he places before him what amounts to a university education in mathematics — seven volumes, given in sequence.</p>
+      </div>
+
+      <aside class="curriculum reveal delay-2">
+        <div class="curriculum-head">
+          <div class="curriculum-eyebrow">A Curriculum · MCMXIV – MCMXVIII</div>
+          <div class="curriculum-title">The <em>seven volumes</em> placed in Fermi's hands</div>
+        </div>
+        <ol class="curriculum-list">
+          <li><span class="cv-num">i.</span><span class="cv-year">1914</span><span class="cv-subject">Geometry</span><span class="cv-text">T. Reye, <em>Die Geometrie der Lage</em></span></li>
+          <li><span class="cv-num">ii.</span><span class="cv-year">1914</span><span class="cv-subject">Trigonometry</span><span class="cv-text">J. A. Serret, <em>Plane and Spherical Trigonometry</em></span></li>
+          <li><span class="cv-num">iii.</span><span class="cv-year">1915</span><span class="cv-subject">Algebra</span><span class="cv-text">E. Cesàro, <em>Course in Algebraic Analysis</em></span></li>
+          <li><span class="cv-num">iv.</span><span class="cv-year">1915</span><span class="cv-subject">Analytic Geometry</span><span class="cv-text">Bianchi, <em>Lectures</em> (University of Pisa)</span></li>
+          <li><span class="cv-num">v.</span><span class="cv-year">1916</span><span class="cv-subject">Calculus</span><span class="cv-text">U. Dini, <em>Lectures</em> (University of Pisa)</span></li>
+          <li><span class="cv-num">vi.</span><span class="cv-year">1917</span><span class="cv-subject">Mechanics</span><span class="cv-text">S. D. Poisson, <em>Traité de Mécanique</em></span></li>
+          <li><span class="cv-num">vii.</span><span class="cv-year">1918</span><span class="cv-subject">Logic &amp; Geometry</span><span class="cv-text">Grassmann's <em>Ausdehnungslehre</em>, with Peano's deductive logic</span></li>
+        </ol>
+      </aside>
+
+      <div class="prose col reveal">
+        <p>In 1915 Enrico's elder brother Giulio dies unexpectedly during surgery to remove a throat abscess. The family collapses inward — his mother into prolonged depression, his father into silence. Through this difficult period Amidei continues lending him books.</p>
+        <p>Two strategic decisions prove decisive. Amidei urges Fermi to learn German, so that he could read the scientific papers being published in that language. This, in the middle of the war with Germany and Austria. And when secondary school ends in July 1918, he persuades the family to send Enrico not to the Sapienza in Rome but to the <em>Scuola Normale Superiore</em> in Pisa. <em>I went immediately to Pisa</em>, he writes later, <em>to obtain all the necessary information and the syllabus for the entrance competition. I returned to Rome to study it with him.</em></p>
+        <p>The parents resist. <em>We have already lost Giulio</em>, they tell him, <em>and now for four years we are to be parted from Enrico too, when Rome has an excellent University. Is this right?</em> It requires, Amidei would later record, <em>a saintly patience and much tact</em> to bring them round. They consent. Fermi sits the examination in the autumn of 1918; the President of the Board calls him in, declares he has never met a student like him, predicts a brilliant future, and places him at the head of the list.</p>
+        <p>Fermi went on to win the Nobel Prize in Physics in 1938 and to lead the team that produced the first sustained nuclear chain reaction. Amidei went home to his office. He left no scientific publications and no public career outside the civil service; he survives in the historical record almost entirely through Emilio Segrè's biography of Fermi, through Laura Fermi's memoir, and through a single long letter he wrote in November 1958, at Segrè's request, four years after Enrico's death.</p>
+        <p>This Prize is named for him because he sought nothing for himself and left no record beyond a letter written at another man's request. What he gave — four years of careful attention to an unknown boy — may be as consequential as the discoveries that followed.</p>
+      </div>
+
+      <div class="pullquote reveal">
+        He sought nothing for himself. He recognised what the boy could become, and arranged the conditions under which becoming was possible.
+        <cite>— Foundation Charter, §I</cite>
+      </div>
+    </div>
+  </section>
+
+  <!-- II. Structure -->
+  <section class="chapter" id="structure">
+    <div class="container">
+
+      <div class="chapter-intro reveal">
+        <div class="eyebrow">The Recognition</div>
+        <div class="chapter-header"><h2>One <em>Prize</em>. Many <em>Medals</em>.</h2></div>
+      </div>
+
+      <div class="prose col reveal delay-1">
+        <p>The honour has two tiers, distinct in scale but identical in spirit. Both recognise the same activity: the patient, often invisible work of identifying an exceptional young person and supporting their development through sustained personal effort.</p>
+      </div>
+
+      <div class="tiers reveal delay-2">
+        <div class="tier">
+          <div class="tier-eyebrow">The Senior Award</div>
+          <h3>The <em>Amidei</em> Prize</h3>
+          <div class="tier-meta">Conferred annually upon one laureate</div>
+          <p>A prize of $2,500 and a citation honour a single mentor each year. In rare cases of genuine joint mentorship, the Prize is shared. The laureate also receives the Amidei Medal.</p>
+        </div>
+        <div class="tier">
+          <div class="tier-eyebrow">The Wider Honour</div>
+          <h3>The <em>Amidei</em> Medals</h3>
+          <div class="tier-meta">Ten to twenty new Medallists each year</div>
+          <p>The broader recognition. Mentors are often considerably older than their protégés; many will not live to see the success that occasions a nomination for the Prize. The Medal exists partly to ensure the recognition can still be made. Each Medallist receives the Amidei Medal, the physical object that marks the honour.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- III. Principles -->
+  <section class="chapter" id="principles">
+    <div class="container">
+
+      <div class="chapter-intro reveal">
+        <div class="eyebrow">Structural Principles</div>
+        <div class="chapter-header"><h2>The <em>commitments</em> that hold the Prize true.</h2></div>
+      </div>
+
+      <div class="principles reveal delay-1">
+        <div class="principle">
+          <div class="num"></div>
+          <div>
+            <h4>The protégé nominates the mentor.</h4>
+            <p>The central operational principle of the Prize, and the only mechanism that surfaces invisible mentors at all. Nominations come from those who were helped, never from the mentors themselves or from third parties.</p>
+          </div>
+        </div>
+        <div class="principle">
+          <div class="num"></div>
+          <div>
+            <h4>The activity is what is honoured, not the field.</h4>
+            <p>A high-school teacher and a globally-known philanthropist are equally eligible. The criterion is universal: mathematics, the sciences, the humanities, the arts. Distinction of field does not weigh against the mentor.</p>
+          </div>
+        </div>
+        <div class="principle">
+          <div class="num"></div>
+          <div>
+            <h4>The living and the dead are honoured equivalently.</h4>
+            <p>Death does not diminish the recognition. Medal and citation are identical. Where the mentor has died, the medal passes to a designated family member, to the protégé, or — failing both — to the foundation's permanent collection.</p>
+          </div>
+        </div>
+        <div class="principle">
+          <div class="num"></div>
+          <div>
+            <h4>The protégé must have demonstrated extraordinary achievement.</h4>
+            <p>The nominator must have demonstrated sustained excellence in their field — evidenced by major awards or prizes, original contributions of significant impact, or critical roles in distinguished institutions. No single criterion is required; the committee weighs the body of evidence.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- IV. Society -->
+  <section class="chapter" id="medallists">
+    <div class="container">
+
+      <div class="chapter-intro reveal">
+        <div class="eyebrow">The Society of Medallists</div>
+        <div class="chapter-header"><h2>A standing <em>community</em> of mentors in conversation.</h2></div>
+      </div>
+
+      <div class="prose col reveal delay-1">
+        <p>Two activities animate the Society year by year — a yearly convocation and a serial publication. Together they make it a working body rather than a list of names.</p>
+      </div>
+
+      <div class="activities reveal delay-2">
+        <div class="activity">
+          <div class="glyph">i.</div>
+          <h4>The <em>Annual</em> Convocation</h4>
+          <p>Living Medallists gather for a day or two around the Prize ceremony. New Medallists are inducted; sitting Medallists speak of the young people they are now mentoring; the laureate is honoured. A room of people who have all done the thing.</p>
+        </div>
+        <div class="activity">
+          <div class="glyph">ii.</div>
+          <h4>The <em>Annual</em> Publication</h4>
+          <p>Each year's publication carries the stories of that year's mentors and protégés — in their own words where possible — alongside articles on best practice and current research on talent development. Over decades, the most substantial record of what excellent mentorship actually looks like.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- V. Recovery -->
+  <section class="chapter" id="recovery">
+    <div class="container">
+
+      <div class="chapter-intro reveal">
+        <div class="eyebrow">The Historical Recovery Programme</div>
+        <div class="chapter-header"><h2>The <em>long</em> work of recovering forgotten mentors.</h2></div>
+      </div>
+
+      <div class="prose col reveal delay-1">
+        <p class="lead">A standing scholarly arm of the foundation, dedicated to the recovery of historical Amidei figures and their proper induction, when the research is complete, as posthumous Medallists.</p>
+        <p>The first project, begun in the inaugural year, is the recovery of Adolfo Amidei himself. Twelve to eighteen months of archival work in Rome and at the American Philosophical Society: locating his personnel file, searching for descendants, cataloguing and translating his 1958 letter on Fermi, recovering a portrait if one exists. The result will be the first proper biography of Amidei ever written.</p>
+        <p>When that work concludes, Amidei will be inducted as the foundation's first posthumous Medallist at a dedicated ceremony — descendants receiving his medal, the recovered portrait unveiled, the published biography presented. Subsequent recoveries follow at the programme's own scholarly pace.</p>
+      </div>
+
+      <div class="recovery-list reveal delay-2">
+        <div class="recovery-item">
+          <div class="name"><em>Adolfo</em> Amidei</div>
+          <div class="desc">Roman engineer; mentor to Enrico Fermi, 1914–1918</div>
+          <div class="status active">Research underway</div>
+        </div>
+        <div class="recovery-item">
+          <div class="name">Bill <em>Dougall</em></div>
+          <div class="desc">Teacher at Lakeside; with the Mothers' Club, secured early computing access</div>
+          <div class="status">Forthcoming</div>
+        </div>
+        <div class="recovery-item">
+          <div class="name">R. Ramachandra <em>Rao</em></div>
+          <div class="desc">Mathematics correspondent to the young Srinivasa Ramanujan</div>
+          <div class="status">Under consideration</div>
+        </div>
+        <div class="recovery-item">
+          <div class="name">The <em>Farzanegan</em> Principal</div>
+          <div class="desc">Tehran; the school that produced a generation of Iranian Olympians</div>
+          <div class="status">Under consideration</div>
+        </div>
+        <div class="recovery-item">
+          <div class="name">Benjamin <em>Graham</em></div>
+          <div class="desc">Columbia Business School; mentor to a young Warren Buffett</div>
+          <div class="status">Under consideration</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+
+  <!-- Nominate -->
+  <section class="nominate" id="nominate">
+    <div class="container">
+      <div class="reveal">
+        <h2>Was there <em>someone</em>?</h2>
+        <p>If a person — living or no longer with us — saw what you could become and helped you to become it, the Prize exists for you to name them.</p>
+        <button class="nominate-btn">Submit a Nomination</button>
+        <div class="deadline">Nominations for the inaugural Prize open Autumn 2026.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <div class="foot-grid">
+        <div>
+          <div class="mark">The <em>Fermi</em> Foundation</div>
+          <p class="blurb">A foundation established in 2026 to mark the one-hundred-and-twenty-fifth birthday of Enrico Fermi, dedicated to the cultivation of quantitative thinking and to the recognition of those who identify and support exceptional young people.</p>
+        </div>
+        <div>
+          <h5>The Prize</h5>
+          <ul>
+            <li><a href="#origins">Origins</a></li>
+            <li><a href="#structure">Structure</a></li>
+            <li><a href="#principles">Principles</a></li>
+            <li><a href="#nominate">Nominations</a></li>
+          </ul>
+        </div>
+        <div>
+          <h5>The Medallists</h5>
+          <ul>
+            <li><a href="#medallists">Convocation</a></li>
+            <li><a href="#medallists">Publication</a></li>
+            <li><a href="#recovery">Recovery Programme</a></li>
+          </ul>
+        </div>
+        <div>
+          <h5>Foundation</h5>
+          <ul>
+            <li><a href="#">Charter</a></li>
+            <li><a href="#">Fermi Poker</a></li>
+            <li><a href="#">Press &amp; Enquiries</a></li>
+            <li><a href="#">Archive</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="colophon">
+        <div>The Fermi Foundation · Established MMXXVI</div>
+        <div>Rome · Chicago · Cambridge</div>
+      </div>
+    </div>
+  </footer>
+
+</div>
+<script>
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+  }, { threshold: 0.12, rootMargin: '0px 0px -60px 0px' });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+  window.addEventListener('load', () => {
+    document.querySelectorAll('.masthead .reveal, .citation .reveal').forEach(el => el.classList.add('in'));
+  });
+</script>
+</body>
+</html>
